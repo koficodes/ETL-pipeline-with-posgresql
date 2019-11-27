@@ -52,14 +52,14 @@ CREATE TABLE IF NOT EXISTS artists(
 
 time_table_create = ("""
 CREATE TABLE IF NOT EXISTS time(
-    start_time TIMESTAMP NOT NULL ,
+    start_time VARCHAR(100) NOT NULL ,
     hour INTEGER NOT NULL,
     day INTEGER NOT NULL,
     week INTEGER NOT NULL,
     month INTEGER NOT NULL,
     year INTEGER NOT NULL,
     weekday INTEGER NOT NULL,
-    song_id VARCHAR(100) REFERENCES songs(song_id)
+    user_id INTEGER NOT NULL
 );
 """)
 
@@ -87,7 +87,7 @@ VALUES(%s,%s,%s,%s,%s)
 
 
 time_table_insert = ("""
-INSERT INTO time(start_time, hour, day, week, month, year, weekday,song_id)
+INSERT INTO time(user_id,start_time, hour, day, week, month, year, weekday)
 VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
 """)
 

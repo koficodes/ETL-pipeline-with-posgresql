@@ -6,6 +6,7 @@ This project creates an ETL pipeline to fetch the data and then creates a databa
 
 #### DATABASE SCHEMA
 The *star schema* is used for the database with `songplays` as the **fact table** and `users, songs, artists and time` as **dimension tables**
+This make query of the data ma
 
 ### HOW TO RUN THIS PROJECT
 

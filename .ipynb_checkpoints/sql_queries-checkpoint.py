@@ -24,7 +24,7 @@ CREATE TABLE  IF NOT EXISTS songplays(
 
 user_table_create = ("""
 CREATE TABLE IF NOT EXISTS users(
-    user_id INTEGER NOT NULL, 
+    user_id INTEGER  PRIMARY KEY, 
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     gender VARCHAR(1) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS users(
 
 song_table_create = ("""
 CREATE TABLE IF NOT EXISTS songs (
-    song_id VARCHAR(100) NOT NULL,
+    song_id VARCHAR(100) PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     artist_id VARCHAR(100) NOT NULL,
     year INTEGER NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS songs (
 
 artist_table_create = ("""
 CREATE TABLE IF NOT EXISTS artists(
-    artist_id VARCHAR(100) NOT NULL,
+    artist_id VARCHAR(100) PRIMARY KEY, 
     name VARCHAR(100) NOT NULL,
     location VARCHAR(50) NOT NULL,
     latitude VARCHAR(50) NOT NULL,
@@ -52,7 +52,8 @@ CREATE TABLE IF NOT EXISTS artists(
 
 time_table_create = ("""
 CREATE TABLE IF NOT EXISTS time(
-    start_time VARCHAR(100) NOT NULL ,
+    time_id serial PRIMARY KEY,
+    start_time VARCHAR(100),
     hour INTEGER NOT NULL,
     day INTEGER NOT NULL,
     week INTEGER NOT NULL,
@@ -67,22 +68,22 @@ CREATE TABLE IF NOT EXISTS time(
 
 songplay_table_insert = ("""
 INSERT INTO songplays(start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)
-VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+VALUES (%s,%s,%s,%s,%s,%s,%s,%s) 
 """)
 
 user_table_insert = ("""
 INSERT INTO users(user_id,first_name, last_name, gender, level)
-VALUES (%s,%s,%s,%s,%s)
+VALUES (%s,%s,%s,%s,%s) ON CONFLICT (user_id) DO NOTHING
 """)
 
 song_table_insert = ("""
 INSERT INTO songs(song_id,title,artist_id,year,duration)
-VALUES (%s,%s,%s,%s,%s)
+VALUES (%s,%s,%s,%s,%s) ON CONFLICT (song_id) DO NOTHING
 """)
 
 artist_table_insert = ("""
 INSERT INTO artists(artist_id,name, location, latitude, longitude)
-VALUES(%s,%s,%s,%s,%s)
+VALUES(%s,%s,%s,%s,%s) ON CONFLICT (artist_id) DO NOTHING
 """)
 
 
@@ -92,7 +93,8 @@ VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
 """)
 
 # FIND SONGS
-
+# The goal is to get the song_id and artist_id which are already in the  songs table
+# there is not need for a join between songs and artists table
 song_select = ("""SELECT song_id,artist_id FROM  songs WHERE title=%s AND duration=%s""")
 # SELECT A.song_id,B.artist_id FROM (SELECT song_id FROM  songs WHERE title='%s' AND duration='%s') AS A ,(SELECT artist_id FROM  artists WHERE name='%s') AS B;
 # QUERY LISTS

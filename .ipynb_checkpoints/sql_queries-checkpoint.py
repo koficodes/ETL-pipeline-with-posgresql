@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS users(
 
 song_table_create = ("""
 CREATE TABLE IF NOT EXISTS songs (
-    song_id VARCHAR(100) PRIMARY KEY,
+    song_id VARCHAR(100) NOT NULL,
     title VARCHAR(100) NOT NULL,
     artist_id VARCHAR(100) NOT NULL,
     year INTEGER NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS songs (
 
 artist_table_create = ("""
 CREATE TABLE IF NOT EXISTS artists(
-    artist_id VARCHAR(100) PRIMARY KEY,
+    artist_id VARCHAR(100) NOT NULL,
     name VARCHAR(100) NOT NULL,
     location VARCHAR(50) NOT NULL,
     latitude VARCHAR(50) NOT NULL,
@@ -94,7 +94,7 @@ VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
 # FIND SONGS
 
 song_select = ("""SELECT song_id,artist_id FROM  songs WHERE title=%s AND duration=%s""")
-
+# SELECT A.song_id,B.artist_id FROM (SELECT song_id FROM  songs WHERE title='%s' AND duration='%s') AS A ,(SELECT artist_id FROM  artists WHERE name='%s') AS B;
 # QUERY LISTS
 
 create_table_queries = [user_table_create, song_table_create, artist_table_create, time_table_create,songplay_table_create]
